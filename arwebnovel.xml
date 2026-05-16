@@ -2953,11 +2953,8 @@ margin-left:40px
         line-height: 1.6;
       }
 
-      /* --- Stage 1: Stable Comments Foundation --- */
-      #comments {
-        margin-top: 40px;
-        clear: both;
-      }
+      /* --- Stage 1: Final Stable Foundation --- */
+      #comments { margin-top: 40px; clear: both; }
       .arwn-comments-box {
         background: var(--bg-card);
         border: 1px solid var(--border-color);
@@ -2966,7 +2963,6 @@ margin-left:40px
         margin-bottom: 20px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.08);
       }
-      
       .arwn-comments-summary {
         padding: 18px 24px;
         display: flex;
@@ -2975,17 +2971,7 @@ margin-left:40px
         background: rgba(var(--accent-light-rgb, 100, 100, 255), 0.05);
         border-bottom: 1px solid var(--border-color);
       }
-      
-      .arwn-comments-heading {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .arwn-comments-title {
-        font-size: 19px;
-        font-weight: 800;
-        color: var(--text-heading);
-      }
+      .arwn-comments-title { font-size: 19px; font-weight: 800; color: var(--text-heading); }
       .arwn-comments-count {
         font-size: 13px;
         background: var(--accent-light);
@@ -2994,17 +2980,7 @@ margin-left:40px
         border-radius: 20px;
         font-weight: 700;
       }
-
-      .arwn-comments-panel {
-        padding: 24px;
-        position: relative;
-      }
-
-      /* Hide any stray elements at the bottom of the panel */
-      .arwn-comments-panel > *:not(.arwn-comment-guidelines):not(.comments-content):not(.comment-footer) {
-        display: none !important;
-      }
-
+      .arwn-comments-panel { padding: 24px; position: relative; }
       .arwn-comment-guidelines {
         padding: 14px 18px;
         background: rgba(var(--accent-light-rgb, 100, 100, 255), 0.03);
@@ -3013,113 +2989,27 @@ margin-left:40px
         border-radius: 8px;
         font-size: 14px;
         color: var(--text-secondary);
-        line-height: 1.6;
       }
-      
       .arwn-comment-editor-wrap {
+        margin-top: 15px;
         min-height: 250px;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
         background: var(--bg-body);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
         overflow: hidden;
-        margin-top: 10px;
       }
-      .arwn-comment-editor-wrap iframe {
-        display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-        min-height: 250px !important;
-      }
-      #comments .comment-form > a[name='comment-form'] {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-      }
-      #comments .comment-actions a:empty,
-      #comments a.comment-reply:empty {
-        display: none !important;
-      }
-      #comments .comment.deleted,
-      #comments .comment-body.deleted,
-      #comments .comment-actions.deleted,
-      #comments .arwn-deleted-comment,
-      #comments .comment-status {
-        display: none !important;
-        height: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        visibility: hidden !important;
-      }
-      #comments hr, #comments .thread-separator {
-        display: none !important;
-      }
-      #comments .arwn-comment-blog-note {
-        margin: 0 0 12px;
-        color: var(--text-secondary);
-        font-size: 13px;
-        line-height: 1.7;
-      }
-      #comments .comment-replybox-single {
-        display: none;
-        margin-top: 12px;
-        overflow: hidden;
-        width: 100% !important;
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        padding: 6px;
-      }
-      #comments .comment-replybox-single.arwn-reply-active {
-        display: block !important;
-      }
-      #comments .comment-replybox-single iframe {
+      .arwn-comment-editor-wrap iframe, #comment-editor {
         width: 100% !important;
         min-height: 250px !important;
-        display: block;
+        display: block !important;
+        border: 0 !important;
       }
-      #comments iframe.arwn-blocked-frame,
-      #comments .comment-replybox-single.arwn-blocked-reply {
+      #comments .comment-form > a[name='comment-form'],
+      .arwn-comments-toggle,
+      #comments hr,
+      #comments .thread-separator,
+      #comments .comment-actions a:empty {
         display: none !important;
-        height: 0 !important;
-        min-height: 0 !important;
-        visibility: hidden !important;
-      }
-      #comment-popup, #comment-actions {
-        position: absolute;
-        width: 0;
-        height: 0;
-        overflow: hidden;
-        visibility: hidden;
-      }
-      .arwn-comment-editor-wrap {
-        margin: 0;
-        padding: 6px;
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        overflow: hidden;
-        background: var(--bg-card);
-        line-height: 0;
-      }
-      .arwn-comment-editor-wrap iframe,
-      #comment-editor,
-      #comments .comment-form iframe {
-        display: block;
-        width: 100% !important;
-        max-width: 100%;
-        min-height: 400px;
-        border: 0 !important;
-        border-radius: 0 !important;
-        background: transparent !important;
-        overflow: hidden;
-        vertical-align: top;
-      }
-      #comments #comment-actions {
-        border: 0 !important;
-        background: transparent !important;
-      } [data-theme=&quot;light&quot;] .arwn-comment-editor-wrap {
-        background: var(--bg-card);
       }
       .arwn-comments-panel .paging-control-container {
         margin-inline: 18px;
@@ -5773,11 +5663,9 @@ margin-left:40px
                     <b:includable id='threadedCommentForm' var='post'>
                       <div class='comment-form'>
                         <a name='comment-form'/>
-                        <b:if cond='data:this.messages.blogComment != &quot;&quot;'>
-                          <p><data:this.messages.blogComment/></p>
-                        </b:if>
                         <b:include data='post' name='commentFormIframeSrc'/>
                         <div class='arwn-comment-editor-wrap'>
+                          <iframe allowtransparency='allowtransparency' class='blogger-iframe-colorize blogger-comment-from-post' frameborder='0' id='comment-editor' name='comment-editor' scrolling='no' src='' width='100%'/>
                           <data:post.cmtfpIframe/>
                           <script type='text/javascript'>
                             BLOG_CMT_createIframe(&#39;<data:post.appRpcRelayPath/>&#39;);
