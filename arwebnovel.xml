@@ -565,8 +565,11 @@ border:0;
 margin-top:0;
 padding-top:0
 }
-#comments.embed[data-num-comments="0"] #comment-post-message,#comments.embed[data-num-comments="0"] div.comment-form>p,#comments.embed[data-num-comments="0"] p.comment-footer{
+#comments.embed[data-num-comments="0"] #comment-post-message,#comments.embed[data-num-comments="0"] div.comment-form>p{
 display:none
+}
+#comments.embed[data-num-comments="0"] p.comment-footer{
+display:block !important
 }
 #comment-editor-src{
 display:none
@@ -2686,6 +2689,10 @@ margin-left:40px
       #comments .comment .comment-header .user a { color: var(--text-heading) !important; }
       #comments .comment .comment-header .datetime,
       #comments .comment .comment-header .datetime a { color: var(--text-secondary) !important; }
+      /* Phase 1: Comment system core fixes */
+      p.comment-footer, div.comment-footer { display: block !important; }
+      #comment-editor-src { display: none !important; }
+      #comments .arwn-cmt-form { min-height: 0; }
       #comments {
         direction: rtl;
         margin-top: 36px;
@@ -5661,17 +5668,8 @@ margin-left:40px
                       <b:include name='headerByline'/>
                     </b:includable>
                     <b:includable id='threadedCommentForm' var='post'>
-                      <div class='comment-form'>
-                        <a name='comment-form'/>
-                        <b:include data='post' name='commentFormIframeSrc'/>
-                        <div class='arwn-comment-editor-wrap'>
-                          <iframe allowtransparency='allowtransparency' class='blogger-iframe-colorize blogger-comment-from-post' frameborder='0' id='comment-editor' name='comment-editor' scrolling='no' src='' width='100%'/>
-                          <data:post.cmtfpIframe/>
-                          <script type='text/javascript'>
-                            BLOG_CMT_createIframe(&#39;<data:post.appRpcRelayPath/>&#39;);
-                          </script>
-                        </div>
-                      </div>
+                      <b:include data='post' name='commentFormIframeSrc'/>
+                      <div class='arwn-cmt-form'/>
                     </b:includable>
                     <b:includable id='threadedCommentJs' var='post'>
                       <script async='async' expr:src='data:post.commentSrc' type='text/javascript'/>
@@ -5703,9 +5701,7 @@ margin-left:40px
                             </div>
 
                             <div class='comments-content'>
-                              <b:if cond='data:post.embedCommentForm'>
-                                <b:include data='post' name='threadedCommentJs'/>
-                              </b:if>
+                              <b:include data='post' name='threadedCommentJs'/>
                               <div id='comment-holder'>
                                 <data:post.commentHtml/>
                               </div>
