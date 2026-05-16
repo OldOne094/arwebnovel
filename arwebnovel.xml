@@ -2999,17 +2999,18 @@ margin-left:40px
       }
       .arwn-comment-editor-wrap {
         margin-top: 15px;
-        min-height: 250px;
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        background: var(--bg-body);
+        min-height: 0;
+        border: none;
+        background: transparent;
         overflow: hidden;
       }
       .arwn-comment-editor-wrap iframe, #comment-editor {
         width: 100% !important;
         min-height: 250px !important;
         display: block !important;
-        border: 0 !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 12px !important;
+        background: var(--bg-body) !important;
       }
       #comments .comment-form > a[name='comment-form'],
       .arwn-comments-toggle,
@@ -5338,10 +5339,10 @@ margin-left:40px
                         </b:if>
                         <b:include data='post' name='commentFormIframeSrc'/>
                         <div class='arwn-comment-editor-wrap'>
+                          <iframe allowtransparency='allowtransparency' class='blogger-iframe-colorize blogger-comment-from-post' frameborder='0' id='comment-editor' name='comment-editor' scrolling='no' src='' width='100%'/>
                           <data:post.cmtfpIframe/>
                           <script type='text/javascript'>
-                            BLOG_CMT_createIframe(&#39;<data:post.appRpcRelayPath/>
-&#39;);
+                            BLOG_CMT_createIframe(&#39;<data:post.appRpcRelayPath/>&#39;);
                           </script>
                         </div>
                       </div>
@@ -5668,8 +5669,17 @@ margin-left:40px
                       <b:include name='headerByline'/>
                     </b:includable>
                     <b:includable id='threadedCommentForm' var='post'>
-                      <b:include data='post' name='commentFormIframeSrc'/>
-                      <div class='arwn-cmt-form'/>
+                      <div class='comment-form'>
+                        <a name='comment-form'/>
+                        <b:include data='post' name='commentFormIframeSrc'/>
+                        <div class='arwn-comment-editor-wrap'>
+                          <iframe allowtransparency='allowtransparency' class='blogger-iframe-colorize blogger-comment-from-post' frameborder='0' id='comment-editor' name='comment-editor' scrolling='no' src='' width='100%'/>
+                          <data:post.cmtfpIframe/>
+                          <script type='text/javascript'>
+                            BLOG_CMT_createIframe(&#39;<data:post.appRpcRelayPath/>&#39;);
+                          </script>
+                        </div>
+                      </div>
                     </b:includable>
                     <b:includable id='threadedCommentJs' var='post'>
                       <script async='async' expr:src='data:post.commentSrc' type='text/javascript'/>
@@ -5691,13 +5701,35 @@ margin-left:40px
                           <div class='arwn-comments-summary'>
                             <div class='arwn-comments-heading'>
                               <span class='arwn-comments-title'>التعليقات</span>
-                              <span class='arwn-comments-count'><data:post.numberOfComments/></span>
+                              <span class='arwn-comments-count'>
+                                <data:post.numberOfComments/>
+                              </span>
                             </div>
                           </div>
-                          
+
                           <div class='arwn-comments-panel'>
                             <div class='arwn-comment-guidelines'>
                               <strong>تنبيه لطيف:</strong> عند مناقشة أحداث متقدمة&#1548; ابدأ تعليقك بعبارة &quot;حرق أحداث&quot; حتى لا تفسد القراءة على الآخرين.
+                            </div>
+
+                            <div class='comment-footer'>
+                              <b:if cond='data:post.embedCommentForm'>
+                                <b:if cond='data:post.allowNewComments'>
+                                  <h4 class='arwn-comment-form-label'>اكتب تعليقك</h4>
+                                  <b:include data='post' name='threadedCommentForm'/>
+                                  <b:else/>
+                                  <data:post.noNewCommentsText/>
+                                </b:if>
+                                <b:else/>
+                                <b:if cond='data:post.allowComments'>
+                                  <a class='arwn-add-comment-link' expr:href='data:post.commentsUrl' expr:onclick='data:post.commentsUrlOnclick'>
+                                    ✏️ أضف تعليقاً
+                                  </a>
+                                </b:if>
+                              </b:if>
+                              <b:if cond='data:post.showManageComments'>
+                                <b:include data='post' name='manageComments'/>
+                              </b:if>
                             </div>
 
                             <div class='comments-content'>
@@ -5705,18 +5737,6 @@ margin-left:40px
                               <div id='comment-holder'>
                                 <data:post.commentHtml/>
                               </div>
-                            </div>
-
-                            <div class='comment-footer'>
-                              <b:if cond='data:post.allowNewComments'>
-                                <h4 class='arwn-comment-form-label'>اكتب تعليقك</h4>
-                                <b:include data='post' name='threadedCommentForm'/>
-                                <b:else/>
-                                <data:post.noNewCommentsText/>
-                              </b:if>
-                              <b:if cond='data:post.showManageComments'>
-                                <b:include data='post' name='manageComments'/>
-                              </b:if>
                             </div>
                           </div>
                         </div>
@@ -6105,7 +6125,7 @@ margin-left:40px
 
     <!-- === Theme Toggle Script === -->
     <script type='text/javascript'>
-      //                              <![CDATA[
+      //                                    <![CDATA[
       (function() {
         // Apply saved theme immediately to prevent flash
         var savedTheme = localStorage.getItem('arwn-theme') || 'dark';
@@ -6298,34 +6318,40 @@ margin-left:40px
             removeNestedBlogLayout();
             
             // Comprehensive deleted comment detection
-            document.querySelectorAll('#comments .comment-body, #comments .comment-content, #comments .comment-status, #comments .comment').forEach(function(el) {
-              var text = (el.textContent || '').trim();
-              var isDeletedText = text.indexOf('أزال') !== -1 || text.indexOf('حذف') !== -1 || text.indexOf('deleted') !== -1 || text.indexOf('removed') !== -1;
-              if (isDeletedText || el.classList.contains('deleted') || el.classList.contains('comment-status')) {
-                var comment = el.closest('.comment') || el.closest('.comment-thread') || (el.classList.contains('comment') ? el : null);
-                if (comment && !comment.dataset.arwnHiding) {
-                  comment.dataset.arwnHiding = '1';
-                  var replies = comment.querySelector('.comment-replies');
-                  if (!replies || !replies.textContent.trim()) {
-                    comment.style.display = 'none';
-                    comment.classList.add('arwn-deleted-comment');
+            document.querySelectorAll('#comments .comment.deleted, #comments .comment-body.deleted').forEach(function(el) {
+              var comment = el.closest('.comment') || el.closest('.comment-thread') || (el.classList.contains('comment') ? el : null);
+              if (comment && !comment.dataset.arwnHiding) {
+                comment.dataset.arwnHiding = '1';
+                var replies = comment.querySelector('.comment-replies');
+                if (!replies || !replies.textContent.trim()) {
+                  comment.style.display = 'none';
+                  comment.classList.add('arwn-deleted-comment');
+                } else {
+                  // Hide only the deleted part but keep the thread structure
+                  if (el.classList.contains('comment')) {
+                     var b = el.querySelector('.comment-body, .comment-content');
+                     if (b) b.style.display = 'none';
+                     var h = el.querySelector('.comment-header, .comment-author');
+                     if (h) h.style.display = 'none';
                   } else {
-                    // Hide only the deleted part but keep the thread structure
-                    if (el.classList.contains('comment')) {
-                       var b = el.querySelector('.comment-body, .comment-content');
-                       if (b) b.style.display = 'none';
-                       var h = el.querySelector('.comment-header, .comment-author');
-                       if (h) h.style.display = 'none';
-                    } else {
-                       el.style.display = 'none';
-                    }
+                     el.style.display = 'none';
                   }
                 }
               }
             });
 
-            document.querySelectorAll('#comments p.arwn-comment-form-label').forEach(function(node) {
-              node.parentNode.removeChild(node);
+            document.querySelectorAll('#comments h4.arwn-comment-form-label').forEach(function(node) {
+              // Only hide the label if the iframe is no longer immediately after it in the original container
+              var wrapper = node.nextElementSibling;
+              if (wrapper && wrapper.classList.contains('comment-form')) {
+                 var iframe = wrapper.querySelector('iframe');
+                 if (!iframe) node.style.display = 'none';
+              } else if (wrapper && wrapper.classList.contains('arwn-comment-editor-wrap')) {
+                 var iframe = wrapper.querySelector('iframe');
+                 if (!iframe) node.style.display = 'none';
+              } else if (!document.querySelector('.comment-footer iframe')) {
+                 node.style.display = 'none';
+              }
             });
 
             var titles = document.querySelectorAll('#comments #comment-post-message');
@@ -6459,7 +6485,7 @@ margin-left:40px
 
     <!-- === Novel/Chapter System Script === -->
     <script type='text/javascript'>
-      //                        <![CDATA[
+      //                              <![CDATA[
       (function() {
         document.addEventListener('DOMContentLoaded', function() {
 
