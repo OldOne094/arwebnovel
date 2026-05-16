@@ -1,0 +1,245 @@
+<!-- قالب المكتبة الشاملة (Library Template) -->
+<!-- انسخ هذا الكود والصقه في وضع HTML داخل "صفحة جديدة" في بلوجر -->
+
+<div class="arwn-library-container" id="arwn-library-container">
+  <!-- سيتم جلب الروايات ووضعها هنا تلقائياً -->
+</div>
+
+<div class="arwn-load-more-container" style="text-align: center; margin-top: 30px; display: none;" id="arwn-library-load-more">
+  <button onclick="loadMoreLibrary()" class="arwn-load-more-btn">تحميل المزيد</button>
+</div>
+
+<div id="arwn-library-loader" style="text-align: center; padding: 30px;">
+  <div class="arwn-spinner">جاري جلب الروايات...</div>
+</div>
+
+<style>
+/* تنسيقات المكتبة */
+.arwn-library-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+.arwn-library-item {
+  background: var(--bg-card, #1e1e1e);
+  border: 1px solid var(--border-color, #333);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+.arwn-library-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  border-color: var(--accent-gold, #d4af37);
+}
+.arwn-library-cover {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+}
+.arwn-library-details {
+  padding: 15px;
+  text-align: center;
+}
+.arwn-library-title {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--text-heading, #fff);
+  margin-bottom: 5px;
+  text-decoration: none;
+  display: block;
+  line-height: 1.4;
+}
+.arwn-library-title:hover {
+  color: var(--accent-gold, #d4af37);
+}
+.arwn-load-more-btn {
+  background: var(--accent-gold, #d4af37);
+  color: #fff;
+  border: none;
+  padding: 12px 35px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  font-family: 'Noto Naskh Arabic', serif;
+}
+.arwn-load-more-btn:hover {
+  opacity: 0.8;
+}
+.arwn-spinner {
+  font-size: 16px;
+  color: var(--text-secondary, #aaa);
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+@media (max-width: 600px) {
+  .arwn-library-container {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 15px;
+  }
+  .arwn-library-title {
+    font-size: 14px;
+  }
+}
+</style>
+
+<script>
+// ==========================================
+// إعدادات المكتبة (قم بتغيير التصنيف هنا حسب الحاجة)
+// ==========================================
+// لتغيير المكتبة، قم بتغيير القيمة بين علامات التنصيص أسفله:
+// مثلاً: "لايت-نوفل" أو "رواية-مترجمة"
+const LIBRARY_LABEL = "ويب-نوفل"; 
+const RESULTS_PER_PAGE = 12;
+
+let currentLibraryStartIndex = 1;
+
+function fetchLibraryItems(startIndex) {
+  const script = document.createElement("script");
+  // ترميز التسمية بشكل صحيح لتفادي أخطاء الروابط
+  const label = encodeURIComponent(LIBRARY_LABEL);
+  // نستخدم default بدلاً من summary لأن summary لا يرسل محتوى التدوينة الكامل دائماً، وقد تختفي منه صورة الغلاف.
+  script.src = "/feeds/posts/default/-/" + label + "?alt=json-in-script&callback=processLibraryItems&max-results=" + RESULTS_PER_PAGE + "&start-index=" + startIndex;
+  document.body.appendChild(script);
+  document.getElementById("arwn-library-loader").style.display = "block";
+}
+
+function escapeHtml(value) {
+  return String(value == null ? "" : value).replace(/[&<>"']/g, function(ch) {
+    return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch];
+  });
+}
+
+function safeUrl(value) {
+  const url = String(value || "").trim();
+  if (!url || /^javascript:/i.test(url)) return "";
+  return url.replace(/^http:\/\//i, "https://");
+}
+
+function resizeBloggerImage(url) {
+  url = safeUrl(url);
+  if (!url) return "";
+
+  // صيغ Blogger القديمة: /s72-c/ أو /w72-h72-p-k-no-nu/
+  url = url.replace(/\/(?:s|w|h)\d+[^/]*\//, "/s600/");
+
+  // صيغ Blogger/Googleusercontent الجديدة: =s72-c أو =w72-h72-p-k-no-nu
+  url = url.replace(/=(?:s|w|h)\d+[^&?#]*/, "=s600");
+
+  return url;
+}
+
+function extractImageFromHtml(html) {
+  if (!html) return "";
+
+  try {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const img = doc.querySelector("img");
+    if (img) {
+      const srcset = img.getAttribute("srcset");
+      if (srcset) {
+        const firstSrc = srcset.split(",")[0].trim().split(/\s+/)[0];
+        if (firstSrc) return firstSrc;
+      }
+      return img.getAttribute("src") || img.getAttribute("data-src") || img.getAttribute("data-original") || "";
+    }
+  } catch (e) {}
+
+  const match = html.match(/<img[^>]+(?:src|data-src|data-original)=["']([^"']+)["']/i);
+  return match ? match[1] : "";
+}
+
+function getEntryImage(entry) {
+  if (entry.media$content && entry.media$content.length && entry.media$content[0].url) {
+    return resizeBloggerImage(entry.media$content[0].url);
+  }
+
+  if (entry.media$thumbnail && entry.media$thumbnail.url) {
+    return resizeBloggerImage(entry.media$thumbnail.url);
+  }
+
+  const contentHtml = entry.content && entry.content.$t ? entry.content.$t : "";
+  const summaryHtml = entry.summary && entry.summary.$t ? entry.summary.$t : "";
+  return resizeBloggerImage(extractImageFromHtml(contentHtml) || extractImageFromHtml(summaryHtml));
+}
+
+function processLibraryItems(json) {
+  const container = document.getElementById("arwn-library-container");
+  const loadMoreBtn = document.getElementById("arwn-library-load-more");
+  const loader = document.getElementById("arwn-library-loader");
+  
+  loader.style.display = "none";
+
+  if (!json.feed || !json.feed.entry || json.feed.entry.length === 0) {
+    if (currentLibraryStartIndex === 1) {
+      container.innerHTML = "<p style='text-align:center; width:100%; color:var(--text-secondary);'>لا توجد روايات في هذه المكتبة حالياً.</p>";
+    }
+    loadMoreBtn.style.display = "none";
+    return;
+  }
+
+  const entries = json.feed.entry;
+  let html = "";
+
+  entries.forEach(entry => {
+    const title = entry.title.$t;
+    let link = "";
+    // استخراج رابط التدوينة
+    for (let i = 0; i < entry.link.length; i++) {
+      if (entry.link[i].rel === "alternate") {
+        link = entry.link[i].href;
+        break;
+      }
+    }
+    
+    // الغلاف الافتراضي
+    const fallbackImg = "https://placehold.co/300x400/222222/d4af37?text=No+Cover";
+    const imgUrl = getEntryImage(entry) || fallbackImg;
+    const safeLink = escapeHtml(safeUrl(link));
+    const safeTitle = escapeHtml(title);
+    const safeImgUrl = escapeHtml(imgUrl);
+    const safeFallback = escapeHtml(fallbackImg);
+
+    html += `
+      <div class="arwn-library-item">
+        <a href="${safeLink}">
+          <img src="${safeImgUrl}" alt="${safeTitle}" class="arwn-library-cover" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${safeFallback}';">
+        </a>
+        <div class="arwn-library-details">
+          <a href="${safeLink}" class="arwn-library-title">${safeTitle}</a>
+        </div>
+      </div>
+    `;
+  });
+
+  // إضافة الكود للشبكة
+  container.insertAdjacentHTML('beforeend', html);
+
+  // التحقق من الحاجة لزر "تحميل المزيد"
+  const totalResults = parseInt(json.feed.openSearch$totalResults.$t, 10);
+  if (currentLibraryStartIndex + RESULTS_PER_PAGE - 1 < totalResults) {
+    loadMoreBtn.style.display = "block";
+  } else {
+    loadMoreBtn.style.display = "none";
+  }
+}
+
+function loadMoreLibrary() {
+  currentLibraryStartIndex += RESULTS_PER_PAGE;
+  document.getElementById("arwn-library-load-more").style.display = "none";
+  fetchLibraryItems(currentLibraryStartIndex);
+}
+
+// البدء في الجلب فور تحميل الصفحة
+fetchLibraryItems(currentLibraryStartIndex);
+</script>
