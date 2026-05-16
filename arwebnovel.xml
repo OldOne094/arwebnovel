@@ -2788,9 +2788,19 @@ margin-left:40px
         display: block;
         margin-bottom: 8px;
       }
-      #comments #comments-block,
+      #comments #comments-block {
+        margin-bottom: 12px;
+      }
       #comments #comment-holder {
         margin-bottom: 12px;
+        display: flex;
+        flex-direction: column;
+      }
+      /* Force Blogger's JS-injected top-level form to appear at the very top */
+      #comments #comment-holder > .comment-replybox-single {
+        order: -1;
+        margin-top: 10px !important;
+        margin-bottom: 25px !important;
       }
       #comments .comment .comment-replybox-single,
       #comments .comment-thread .comment-replies {
@@ -5420,6 +5430,20 @@ margin-left:40px
                                 <strong>تنبيه لطيف:</strong> عند مناقشة أحداث متقدمة&#1548; ابدأ تعليقك بعبارة &quot;حرق أحداث&quot; حتى لا تفسد القراءة على الآخرين.
                               </div>
 
+                              <div class='arwn-comments-form-footer'>
+                                <b:if cond='data:post.embedCommentForm'>
+                                  <b:if cond='data:post.allowNewComments'>
+                                    <b:include data='post' name='commentForm'/>
+                                    <b:else/>
+                                    <data:post.noNewCommentsText/>
+                                  </b:if>
+                                  <b:else/>
+                                  <b:if cond='data:post.allowComments'>
+                                    <b:include data='post' name='addComments'/>
+                                  </b:if>
+                                </b:if>
+                              </div>
+
                               <div expr:id='data:widget.instanceId + &quot;_comments-block-wrapper&quot;'>
                                 <b:include cond='data:post.comments' data='post.comments' name='commentList'/>
                               </div>
@@ -5449,20 +5473,6 @@ margin-left:40px
                                   </b:if>
                                 </div>
                               </b:if>
-
-                              <div class='arwn-comments-form-footer'>
-                                <b:if cond='data:post.embedCommentForm'>
-                                  <b:if cond='data:post.allowNewComments'>
-                                    <b:include data='post' name='commentForm'/>
-                                    <b:else/>
-                                    <data:post.noNewCommentsText/>
-                                  </b:if>
-                                  <b:else/>
-                                  <b:if cond='data:post.allowComments'>
-                                    <b:include data='post' name='addComments'/>
-                                  </b:if>
-                                </b:if>
-                              </div>
                             </div>
                           </details>
                         </b:if>
