@@ -4750,6 +4750,262 @@ margin-left:40px
           bottom: 12px;
         }
       }
+
+      /* --- تنسيقات صفحة نتائج البحث (Search Results Page) --- */
+      body.search-view .main-heading {
+        display: none !important;
+      }
+
+      body.search-view .Blog .blog-posts {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 15px !important;
+        margin-top: 15px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      body.search-view .Blog .blog-posts .post-outer-container {
+        padding: 16px !important;
+        background: var(--bg-card) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 12px !important;
+        margin-bottom: 0 !important;
+        box-shadow: var(--card-shadow) !important;
+        transition: all 0.3s ease !important;
+        display: block !important; /* Block layout so that child .post-outer and .post span full-width */
+        box-sizing: border-box !important;
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+
+      body.search-view .Blog .blog-posts .post-outer-container:hover {
+        border-color: var(--accent-gold) !important;
+        box-shadow: var(--glow-gold), var(--card-shadow) !important;
+        transform: translateY(-2px) !important;
+      }
+
+      body.search-view .post-outer,
+      body.search-view .post {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: none !important;
+      }
+
+      body.search-view .post-title {
+        font-family: 'Noto Naskh Arabic', serif !important;
+        font-size: 18px !important;
+        font-weight: bold !important;
+        margin: 0 0 10px 0 !important;
+        text-align: right !important;
+        line-height: 1.4 !important;
+      }
+
+      body.search-view .post-title a {
+        color: var(--text-heading) !important;
+        text-decoration: none !important;
+        transition: color 0.25s ease !important;
+      }
+
+      body.search-view .post-title a:hover {
+        color: var(--accent-gold) !important;
+      }
+
+      body.search-view .arwn-post-badge {
+        margin-inline-start: 8px !important;
+        margin-top: 4px !important;
+        margin-bottom: 12px !important;
+        display: inline-flex !important;
+      }
+
+      body.search-view .post-body {
+        color: var(--text-primary) !important;
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+        text-align: right !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: flex !important;
+        flex-direction: row !important; /* Horizontal layout: thumbnail right, text left in RTL */
+        width: 100% !important;
+        gap: 15px !important;
+      }
+
+      body.search-view .post-body .snippet-thumbnail {
+        float: none !important;
+        margin: 0 !important;
+        max-width: 80px !important;
+        min-width: 80px !important;
+        width: 80px !important;
+        aspect-ratio: 2/3 !important;
+        height: 120px !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+        border: 1px solid var(--border-color) !important;
+        background: rgba(0, 0, 0, 0.2) !important;
+        display: block !important;
+        flex-shrink: 0 !important; /* Prevent thumbnail from shrinking */
+      }
+
+      body.search-view .post-body .snippet-thumbnail img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        transition: transform 0.3s ease !important;
+      }
+
+      body.search-view .post-outer-container:hover .post-body .snippet-thumbnail img {
+        transform: scale(1.06) !important;
+      }
+
+      body.search-view .post-snippet.snippet-container {
+        flex: 1 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        max-height: none !important;
+        box-shadow: none !important;
+      }
+
+      body.search-view .post-snippet .snippet-item {
+        color: var(--text-secondary) !important;
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+        text-align: right !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 4 !important; /* Clamp description text to 4 lines */
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+
+      /* إخفاء العناصر غير الضرورية في نتائج البحث لتبسيط الواجهة */
+      body.search-view .post-header,
+      body.search-view .byline,
+      body.search-view .post-footer,
+      body.search-view .post-share-buttons,
+      body.search-view .post-comment-link,
+      body.search-view .comment-link,
+      body.search-view .jump-link,
+      body.search-view .snippet-fade {
+        display: none !important;
+      }
+
+      /* تنسيق رسالة فلترة البحث وتوسيطها */
+      body.search-view .post-filter-message {
+        background: var(--bg-card) !important;
+        border: 1px solid var(--border-color) !important;
+        border-right: 4px solid var(--accent-gold) !important;
+        border-radius: 8px !important;
+        color: var(--text-heading) !important;
+        font-family: 'Noto Naskh Arabic', serif !important;
+        font-size: 15px !important;
+        padding: 12px 16px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-bottom: 20px !important;
+        box-shadow: var(--card-shadow) !important;
+        gap: 15px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+
+      body.search-view .post-filter-message div {
+        padding: 0 !important;
+        display: block !important;
+      }
+
+      body.search-view .post-filter-message a {
+        background: var(--accent-gold) !important;
+        color: #0d0d14 !important;
+        font-weight: bold !important;
+        padding: 6px 14px !important;
+        border-radius: 20px !important;
+        text-decoration: none !important;
+        font-size: 12px !important;
+        transition: all 0.25s ease !important;
+        display: inline-block !important;
+        white-space: nowrap !important;
+      }
+
+      body.search-view .post-filter-message a:hover {
+        opacity: 0.95 !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2) !important;
+      }
+
+      /* تنسيق أزرار التنقل للصفحات (Pagination) */
+      body.search-view #blog-pager {
+        display: flex !important;
+        justify-content: center !important;
+        gap: 15px !important;
+        margin: 30px 0 !important;
+        font-family: 'Noto Naskh Arabic', serif !important;
+      }
+
+      body.search-view #blog-pager a {
+        background: var(--bg-card) !important;
+        border: 1px solid var(--border-color) !important;
+        color: var(--text-primary) !important;
+        padding: 8px 18px !important;
+        border-radius: 20px !important;
+        text-decoration: none !important;
+        font-size: 13px !important;
+        font-weight: bold !important;
+        transition: all 0.25s ease !important;
+        box-shadow: var(--card-shadow) !important;
+      }
+
+      body.search-view #blog-pager a:hover {
+        border-color: var(--accent-gold) !important;
+        color: var(--accent-gold) !important;
+        box-shadow: var(--glow-gold), var(--card-shadow) !important;
+      }
+
+      /* توافق الهواتف الشامل */
+      @media screen and (max-width: 600px) {
+        body.search-view .Blog .blog-posts .post-outer-container {
+          padding: 12px !important; /* Less padding on small screens */
+        }
+        body.search-view .post-title {
+          font-size: 15px !important;
+          margin: 0 0 8px 0 !important;
+          text-align: right !important; /* Keep aligned to right for natural reading */
+        }
+        body.search-view .post-body {
+          flex-direction: row !important; /* Keep horizontal list on mobile for compact premium app layout */
+          gap: 12px !important;
+        }
+        body.search-view .post-body .snippet-thumbnail {
+          max-width: 70px !important;
+          min-width: 70px !important;
+          width: 70px !important;
+          height: 105px !important; /* Smaller size on mobile */
+        }
+        body.search-view .post-snippet .snippet-item {
+          font-size: 12.5px !important;
+          line-height: 1.5 !important;
+          text-align: right !important;
+          -webkit-line-clamp: 3 !important; /* Clamp to 3 lines on mobile */
+        }
+        body.search-view .post-filter-message {
+          padding: 10px 12px !important;
+          font-size: 13px !important;
+          flex-direction: row !important; /* Keep horizontal on mobile too */
+          justify-content: space-between !important;
+          align-items: center !important;
+        }
+        body.search-view .post-filter-message a {
+          padding: 5px 10px !important;
+          font-size: 11px !important;
+        }
+      }
     </style>
 
     <b:template-skin>
@@ -5086,7 +5342,6 @@ margin-left:40px
             <div class='centered-top-placeholder'/>
             <header class='centered-top-container' role='banner'>
               <div class='centered-top arwn-flex-header'>
-                <b:class cond='data:view.isSearch and data:view.search.query' name='search-focused'/>
 
                 <!-- Right Side: Title & Mobile Hamburger -->
                 <div class='arwn-header-brand'>
@@ -5125,7 +5380,6 @@ margin-left:40px
                   </button>
                   <b:if cond='data:view.isLayoutMode or data:widgets any (w =&gt; w.sectionId == &quot;search_top&quot;)'>
                     <div class='search'>
-                      <b:class cond='data:view.isSearch and data:view.search.query' name='focused'/>
                       <div class='search-dim-overlay'/>
                       <button class='search-expand touch-icon-button' expr:aria-label='data:messages.search.escaped'>
                         <div class='flat-icon-button ripple'>
