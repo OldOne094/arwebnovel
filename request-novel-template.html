@@ -1,0 +1,465 @@
+<!--
+  ╔════════════════════════════════════════════════════════════════╗
+  ║  قالب صفحة طلب رواية - Request Novel Page Template             ║
+  ║                                                                ║
+  ║  التعليمات:                                                    ║
+  ║  1. أنشئ "صفحة جديدة" (Page) في لوحة تحكم بلوجر.               ║
+  ║  2. اكتب عنوان الصفحة (مثال: طلب رواية).                       ║
+  ║  3. قم بالتبديل إلى عرض HTML (من أيقونة القلم أعلى اليمين).     ║
+  ║  4. انسخ هذا الكود بالكامل والصقه في محرر الصفحة.              ║
+  ║  5. لتفعيل استقبال الطلبات على بريدك الإلكتروني مجاناً:        ║
+  ║     - اذهب إلى موقع Web3Forms (https://web3forms.com)          ║
+  ║     - أدخل بريدك الإلكتروني للحصول على مفتاح الوصول (Access Key) ║
+  ║     - استبدل القيمة "YOUR_ACCESS_KEY_HERE" في الكود بمفتاحك.    ║
+  ║  6. انشر الصفحة!                                               ║
+  ╚════════════════════════════════════════════════════════════════╝
+-->
+
+<div class="arwn-req-wrapper">
+  <!-- رأس الصفحة -->
+  <div class="arwn-req-header">
+    <div class="arwn-req-icon">💡</div>
+    <h2>طلب رواية جديدة</h2>
+    <p>هل هناك رواية مميزة ترغب في ترجمتها أو توفير فصولها على الموقع؟ املأ النموذج أدناه وسنقوم بمراجعة طلبك في أقرب وقت ممكن!</p>
+  </div>
+
+  <!-- صندوق النموذج -->
+  <div class="arwn-req-card" id="arwn-req-card">
+    <!-- النموذج الفعلي -->
+    <form id="arwn-request-form" action="https://api.web3forms.com/submit" method="POST">
+      <!-- مفتاح استقبال الرسائل (يستبدله المستخدم بمفتاحه الشخصي) -->
+      <input type="hidden" name="access_key" value="92fffddb-f597-46d4-9bc2-5facedc67a00">
+      <!-- عنوان مخصص للرسالة الواردة في البريد -->
+      <input type="hidden" name="subject" value="طلب رواية جديدة من موقع روايات الشبكة العربية">
+      <!-- منع إظهار صفحة النجاح الخارجية لـ Web3Forms والاعتماد على نجاح مخصص بالصفحة -->
+      <input type="hidden" name="redirect" value="">
+
+      <!-- حقل الاسم -->
+      <div class="arwn-form-group">
+        <label for="user-name">اسمك / اللقب</label>
+        <div class="arwn-input-wrapper">
+          <span class="arwn-input-icon">👤</span>
+          <input type="text" id="user-name" name="name" placeholder="أدخل اسمك أو اسم الشهرة" required>
+        </div>
+      </div>
+
+      <!-- حقل البريد الإلكتروني -->
+      <div class="arwn-form-group">
+        <label for="user-email">البريد الإلكتروني <span class="arwn-optional">(اختياري - لنصلك عند البدء بالرواية)</span></label>
+        <div class="arwn-input-wrapper">
+          <span class="arwn-input-icon">✉️</span>
+          <input type="email" id="user-email" name="email" placeholder="example@domain.com">
+        </div>
+      </div>
+
+      <!-- حقل اسم الرواية -->
+      <div class="arwn-form-group">
+        <label for="novel-name">اسم الرواية المطلوب توفيرها *</label>
+        <div class="arwn-input-wrapper">
+          <span class="arwn-input-icon">📚</span>
+          <input type="text" id="novel-name" name="novel_name" placeholder="مثال: البداية بعد النهاية (The Beginning After The End)" required>
+        </div>
+      </div>
+
+      <!-- حقل تصنيف / نوع الرواية (أزرار اختيار تفاعلية) -->
+      <div class="arwn-form-group">
+        <label>تصنيف الرواية</label>
+        <div class="arwn-radio-group">
+          <label class="arwn-radio-label">
+            <input type="radio" name="novel_type" value="ويب نوفل (Web Novel)" checked>
+            <span class="arwn-radio-custom">ويب نوفل</span>
+          </label>
+          <label class="arwn-radio-label">
+            <input type="radio" name="novel_type" value="لايت نوفل (Light Novel)">
+            <span class="arwn-radio-custom">لايت نوفل</span>
+          </label>
+          <label class="arwn-radio-label">
+            <input type="radio" name="novel_type" value="رواية صينية (Chinese)">
+            <span class="arwn-radio-custom">صينية</span>
+          </label>
+          <label class="arwn-radio-label">
+            <input type="radio" name="novel_type" value="رواية كورية (Korean)">
+            <span class="arwn-radio-custom">كورية</span>
+          </label>
+          <label class="arwn-radio-label">
+            <input type="radio" name="novel_type" value="أخرى / غير معروف">
+            <span class="arwn-radio-custom">أخرى</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- حقل رابط الرواية -->
+      <div class="arwn-form-group">
+        <label for="novel-link">رابط للرواية <span class="arwn-optional">(مثل NovelUpdates, RoyalRoad أو موقع الترجمة الإنجليزية)</span></label>
+        <div class="arwn-input-wrapper">
+          <span class="arwn-input-icon">🔗</span>
+          <input type="url" id="novel-link" name="novel_link" placeholder="https://example.com/novel">
+        </div>
+      </div>
+
+      <!-- حقل ملاحظات إضافية -->
+      <div class="arwn-form-group">
+        <label for="novel-desc">لماذا ترغب بقراءة هذه الرواية؟ أو أي تفاصيل إضافية</label>
+        <textarea id="novel-desc" name="notes" placeholder="اكتب هنا أي ملاحظات، مثل عدد الفصول المترجمة حالياً، أو نبذة بسيطة عن القصة..." rows="4"></textarea>
+      </div>
+
+      <!-- زر الإرسال -->
+      <button type="submit" class="arwn-submit-btn" id="arwn-submit-btn">
+        <span class="btn-text">إرسال الطلب</span>
+        <div class="btn-loader" id="btn-loader"></div>
+      </button>
+    </form>
+
+    <!-- شاشة النجاح (مخفية افتراضياً) -->
+    <div class="arwn-success-screen" id="arwn-success-screen" style="display: none;">
+      <div class="success-icon">🎉</div>
+      <h3>تم إرسال طلبك بنجاح!</h3>
+      <p>شكراً لك. تم تسجيل طلب الرواية وسيقوم فريق العمل بمراجعته قريباً للتحقق من إمكانية ترجمتها أو توفير فصولها في الموقع.</p>
+      <button type="button" class="arwn-reset-btn" onclick="resetRequestForm()">إرسال طلب آخر</button>
+    </div>
+
+    <!-- رسالة خطأ (مخفية افتراضياً) -->
+    <div class="arwn-error-message" id="arwn-error-message" style="display: none;">
+      ⚠️ حدث خطأ أثناء إرسال طلبك. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.
+    </div>
+  </div>
+</div>
+
+<style>
+/* === نظام التصميم والتنسيقات لصفحة طلب الرواية === */
+.arwn-req-wrapper {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px 10px;
+  direction: rtl;
+  font-family: 'Noto Naskh Arabic', serif;
+}
+
+/* الترويسة */
+.arwn-req-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+.arwn-req-icon {
+  font-size: 50px;
+  margin-bottom: 15px;
+  animation: float-icon 3s ease-in-out infinite;
+}
+.arwn-req-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-heading, #ffffff);
+  margin: 0 0 10px 0;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.arwn-req-header p {
+  font-size: 15px;
+  color: var(--text-secondary, #c8c8d0);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+/* الكارد الرئيسي للنموذج */
+.arwn-req-card {
+  background: var(--bg-card, #1a1a2e);
+  border: 1px solid var(--border-color, #2d2d4a);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* المجموعات والحقول */
+.arwn-form-group {
+  margin-bottom: 24px;
+}
+.arwn-form-group label {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-heading, #ffffff);
+  margin-bottom: 8px;
+}
+.arwn-optional {
+  font-size: 12px;
+  color: var(--text-secondary, #8a8a9a);
+  font-weight: normal;
+}
+
+/* مغلف الإدخال */
+.arwn-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.arwn-input-icon {
+  position: absolute;
+  right: 15px;
+  font-size: 18px;
+  color: var(--text-secondary, #8a8a9a);
+  pointer-events: none;
+}
+.arwn-input-wrapper input,
+.arwn-form-group textarea {
+  width: 100%;
+  padding: 12px 45px 12px 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color, #2d2d4a);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+.arwn-form-group textarea {
+  padding: 12px 15px;
+  resize: vertical;
+}
+.arwn-input-wrapper input::placeholder,
+.arwn-form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* تأثيرات التركيز والتحويم */
+.arwn-input-wrapper input:focus,
+.arwn-form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-gold, #d4af37);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.15);
+}
+
+/* أزرار الراديو التفاعلية */
+.arwn-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 5px;
+}
+.arwn-radio-label {
+  cursor: pointer;
+}
+.arwn-radio-label input {
+  display: none; /* إخفاء أزرار راديو المتصفح */
+}
+.arwn-radio-custom {
+  display: inline-block;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color, #2d2d4a);
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--text-secondary, #c8c8d0);
+  transition: all 0.25s ease;
+}
+.arwn-radio-label input:checked + .arwn-radio-custom {
+  background: var(--accent-gold, #d4af37);
+  border-color: var(--accent-gold, #d4af37);
+  color: #0d0d14;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+}
+.arwn-radio-label:hover .arwn-radio-custom {
+  border-color: var(--accent-gold, #d4af37);
+}
+
+/* زر الإرسال */
+.arwn-submit-btn {
+  width: 100%;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, var(--accent-gold, #d4af37) 0%, #b89326 100%);
+  color: #0d0d14;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+.arwn-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+  opacity: 0.95;
+}
+.arwn-submit-btn:active {
+  transform: translateY(1px);
+}
+.arwn-submit-btn.loading {
+  pointer-events: none;
+}
+.arwn-submit-btn.loading .btn-text {
+  visibility: hidden;
+  opacity: 0;
+}
+.btn-loader {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #0d0d14;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: none;
+  position: absolute;
+  animation: spin-loader 0.8s linear infinite;
+}
+.arwn-submit-btn.loading .btn-loader {
+  display: block;
+}
+
+/* شاشة النجاح */
+.arwn-success-screen {
+  text-align: center;
+  padding: 20px 10px;
+  animation: fade-in 0.4s ease forwards;
+}
+.success-icon {
+  font-size: 55px;
+  margin-bottom: 20px;
+}
+.arwn-success-screen h3 {
+  color: var(--accent-gold, #d4af37);
+  font-size: 22px;
+  margin: 0 0 12px 0;
+}
+.arwn-success-screen p {
+  color: var(--text-secondary, #c8c8d0);
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0 0 25px 0;
+}
+.arwn-reset-btn {
+  background: transparent;
+  border: 1px solid var(--accent-gold, #d4af37);
+  color: var(--accent-gold, #d4af37);
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.arwn-reset-btn:hover {
+  background: var(--accent-gold, #d4af37);
+  color: #0d0d14;
+}
+
+/* رسائل الأخطاء */
+.arwn-error-message {
+  margin-top: 15px;
+  padding: 10px 15px;
+  background: rgba(220, 53, 69, 0.15);
+  border: 1px solid #dc3545;
+  border-radius: 8px;
+  color: #ff6b6b;
+  font-size: 14px;
+  text-align: center;
+  animation: fade-in 0.3s ease forwards;
+}
+
+/* تأثير تحويم الأيقونة في الترويسة */
+@keyframes float-icon {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes spin-loader {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* الاستجابة للهواتف */
+@media (max-width: 500px) {
+  .arwn-req-card {
+    padding: 20px 15px;
+  }
+  .arwn-radio-group {
+    justify-content: flex-start;
+  }
+  .arwn-radio-custom {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  .arwn-req-header h2 {
+    font-size: 24px;
+  }
+}
+</style>
+
+<script>
+// === منطق المعالجة والإرسال التفاعلي ===
+document.getElementById('arwn-request-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const form = this;
+  const submitBtn = document.getElementById('arwn-submit-btn');
+  const errorMsg = document.getElementById('arwn-error-message');
+  const successScreen = document.getElementById('arwn-success-screen');
+  const accessKeyInput = form.querySelector('input[name="access_key"]');
+
+  // إخفاء رسائل الخطأ السابقة
+  errorMsg.style.display = 'none';
+
+  // التحقق من تعبئة المفتاح
+  if (accessKeyInput.value === 'YOUR_ACCESS_KEY_HERE') {
+    alert('تنبيه لمدير الموقع: يرجى استبدال "YOUR_ACCESS_KEY_HERE" بمفتاح وصول Web3Forms الحقيقي في كود الـ HTML لاستقبال الطلبات.');
+    return;
+  }
+
+  // تفعيل حالة التحميل للزر
+  submitBtn.classList.add('loading');
+
+  const formData = new FormData(form);
+
+  // إرسال البيانات عبر fetch لتجنب إعادة تحميل الصفحة
+  fetch(form.action, {
+    method: form.method,
+    body: formData,
+    headers: {
+      'Accept': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      // إخفاء نموذج الإدخال وإظهار شاشة النجاح
+      form.style.display = 'none';
+      successScreen.style.display = 'block';
+    } else {
+      throw new Error('Network response was not ok.');
+    }
+  })
+  .catch(error => {
+    console.error('Error submitting form:', error);
+    errorMsg.style.display = 'block';
+  })
+  .finally(() => {
+    // إزالة حالة التحميل للزر
+    submitBtn.classList.remove('loading');
+  });
+});
+
+// إعادة تهيئة النموذج لإرسال طلب آخر
+function resetRequestForm() {
+  const form = document.getElementById('arwn-request-form');
+  const successScreen = document.getElementById('arwn-success-screen');
+  const errorMsg = document.getElementById('arwn-error-message');
+
+  form.reset();
+  form.style.display = 'block';
+  successScreen.style.display = 'none';
+  errorMsg.style.display = 'none';
+}
+</script>
