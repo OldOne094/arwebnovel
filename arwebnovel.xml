@@ -4773,11 +4773,17 @@ margin-left:40px
         margin-bottom: 0 !important;
         box-shadow: var(--card-shadow) !important;
         transition: all 0.3s ease !important;
-        display: block !important; /* Block layout so that child .post-outer and .post span full-width */
+        display: none !important; /* Hide by default in search view to filter out chapters/pages */
         box-sizing: border-box !important;
         width: 100% !important;
         margin-left: 0 !important;
         margin-right: 0 !important;
+      }
+
+      /* إظهار فقط الروايات (ويب نوفل ولايت نوفل) وتجاهل الفصول */
+      body.search-view .Blog .blog-posts .post-outer-container.arwn-type-webnovel,
+      body.search-view .Blog .blog-posts .post-outer-container.arwn-type-lightnovel {
+        display: block !important;
       }
 
       body.search-view .Blog .blog-posts .post-outer-container:hover {
